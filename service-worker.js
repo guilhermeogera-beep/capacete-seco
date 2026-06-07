@@ -1,4 +1,4 @@
-const CACHE_NAME = 'capacete-seco-v2';
+const CACHE_NAME = 'capacete-seco-v3';
 
 const urlsToCache = [
     './',
@@ -13,9 +13,8 @@ self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME).then(cache => {
             return cache.addAll(urlsToCache);
-        })
+        }).then(() => self.skipWaiting())
     );
-    self.skipWaiting();
 });
 
 // Ativação: limpa caches antigos
