@@ -25,6 +25,20 @@ O ESP32 opera em **modo híbrido**:
 
 ---
 
+## ⚠️ Segurança — Ozônio
+
+O ozônio (O₃) é um gás oxidante e **tóxico para respirar** em alta concentração. A tela inicial do PWA exibe um aviso de segurança que **precisa ser confirmado** (checkbox) antes de liberar os botões de acesso ao secador.
+
+- Não use em ambiente fechado e ocupado por pessoas ou animais.
+- Use em local ventilado e não respire o gás durante o ciclo.
+- Após o ciclo, ventile o ambiente antes de usar o capacete.
+- Mantenha longe de crianças, animais e plantas.
+- Pessoas com problemas respiratórios devem ter cuidado redobrado.
+
+A confirmação fica salva no navegador (`localStorage`), mas o aviso permanece sempre visível.
+
+---
+
 ## Hardware
 
 ### Lista de componentes

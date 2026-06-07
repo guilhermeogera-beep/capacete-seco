@@ -1,4 +1,4 @@
-const CACHE_NAME = 'capacete-seco-v4';
+const CACHE_NAME = 'capacete-seco-v5';
 
 const urlsToCache = [
     './',
