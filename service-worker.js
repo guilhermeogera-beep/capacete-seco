@@ -1,4 +1,4 @@
-const CACHE_NAME = 'capacete-seco-v3';
+const CACHE_NAME = 'capacete-seco-v4';
 
 const urlsToCache = [
     './',
@@ -32,8 +32,8 @@ self.addEventListener('activate', event => {
 
 // Intercepta requisições: serve do cache se disponível
 self.addEventListener('fetch', event => {
-    // Não intercepta requisições para o ESP32
-    if (event.request.url.includes('192.168.4.1')) return;
+    // Não intercepta requisições para o ESP32 (modo AP ou rede de casa)
+    if (event.request.url.includes('192.168.4.1') || event.request.url.includes('secador.local')) return;
 
     event.respondWith(
         caches.match(event.request).then(response => {

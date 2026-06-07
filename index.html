@@ -83,6 +83,11 @@
             color: #121212;
             box-shadow: 0 4px 20px rgba(0,229,255,0.3);
         }
+        #btnConfigurar {
+            background: transparent;
+            color: #888;
+            border: 1px solid #444;
+        }
         .status {
             font-size: 12px;
             color: #555;
@@ -98,19 +103,28 @@
     <p class="subtitulo">Secador de Capacete com Ozônio</p>
 
     <div class="instrucao">
-        <strong>Como usar:</strong><br>
-        1. <span>Instale</span> o app no seu celular<br>
+        <strong>Uso no dia a dia:</strong><br>
+        Com o secador já configurado, basta tocar em <span>Conectar ao Secador</span> (seu celular fica na rede de casa, com internet).<br><br>
+        <strong>Primeira vez?</strong><br>
+        1. <span>Instale</span> o app no celular<br>
         2. Conecte no Wi-Fi <span>SecadorCapacete</span><br>
-        3. Toque em <span>Conectar ao Secador</span>
+        3. Toque em <span>Configurar Secador</span> e informe seu Wi-Fi de casa
     </div>
 
     <button id="btnInstalar" class="btn">📥 Instalar Aplicativo</button>
     <button id="btnConectar" class="btn" onclick="entrarNoSecador()">🔌 Conectar ao Secador</button>
+    <button id="btnConfigurar" class="btn" onclick="configurarSecador()">⚙️ Configurar Secador (1ª vez)</button>
 
     <p class="status" id="statusSW">Carregando...</p>
 
     <script>
+        // Uso normal: secador conectado na rede de casa (acessível por mDNS)
         function entrarNoSecador() {
+            window.location.href = "http://secador.local/";
+        }
+
+        // Primeira configuração: secador em modo AP
+        function configurarSecador() {
             window.location.href = "http://192.168.4.1/";
         }
 
