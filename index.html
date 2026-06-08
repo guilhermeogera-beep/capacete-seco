@@ -83,11 +83,12 @@
             color: #121212;
             box-shadow: 0 4px 20px rgba(0,229,255,0.3);
         }
-        #btnConfigurar {
-            background: transparent;
-            color: #888;
-            border: 1px solid #444;
+        .fallback {
+            font-size: 12px;
+            color: #555;
+            margin-top: 4px;
         }
+        .fallback a { color: #00E5FF; }
         .btn:disabled {
             opacity: 0.35;
             cursor: not-allowed;
@@ -175,11 +176,11 @@
 
     <div class="instrucao">
         <strong>Uso no dia a dia:</strong><br>
-        Com o secador já configurado, basta tocar em <span>Conectar ao Secador</span> (seu celular fica na rede de casa, com internet).<br><br>
+        Toque em <span>Conectar ao Secador</span> (seu celular fica na rede de casa, com internet).<br><br>
         <strong>Primeira vez?</strong><br>
         1. <span>Instale</span> o app no celular<br>
         2. Conecte no Wi-Fi <span>SecadorCapacete</span><br>
-        3. Toque em <span>Configurar Secador</span> e informe seu Wi-Fi de casa
+        3. Toque em <span>Conectar ao Secador</span> — lá dentro, toque em <span>Cadastrar Wi-Fi</span> e informe sua rede
     </div>
 
     <details class="manual">
@@ -211,7 +212,7 @@
 
     <button id="btnInstalar" class="btn">📥 Instalar Aplicativo</button>
     <button id="btnConectar" class="btn" onclick="entrarNoSecador()" disabled>🔌 Conectar ao Secador</button>
-    <button id="btnConfigurar" class="btn" onclick="configurarSecador()" disabled>⚙️ Configurar Secador (1ª vez)</button>
+    <p class="fallback">Não abriu? <a href="#" onclick="acessoDireto(); return false;">Acesso direto (1ª vez)</a></p>
 
     <p class="status" id="statusSW">Carregando...</p>
 
@@ -219,12 +220,10 @@
         // Gate de segurança: botões só funcionam após confirmar a leitura dos avisos
         const chkAviso = document.getElementById('chkAviso');
         const btnConectar = document.getElementById('btnConectar');
-        const btnConfigurar = document.getElementById('btnConfigurar');
 
         function aplicarGate() {
             const ok = chkAviso.checked;
             btnConectar.disabled = !ok;
-            btnConfigurar.disabled = !ok;
             localStorage.setItem('avisoSeguranca', ok ? 'aceito' : '');
         }
 
@@ -235,14 +234,15 @@
         aplicarGate();
         chkAviso.addEventListener('change', aplicarGate);
 
-        // Uso normal: secador conectado na rede de casa (acessível por mDNS)
+        // O secador responde em secador.local tanto na rede de casa (uso normal)
+        // quanto no modo de configuração (1ª vez), pois o mDNS roda nos dois modos.
         function entrarNoSecador() {
             if (!chkAviso.checked) return;
             window.location.href = "http://secador.local/";
         }
 
-        // Primeira configuração: secador em modo AP
-        function configurarSecador() {
+        // Atalho caso "secador.local" não abra (ex: alguns Android na 1ª vez, em modo AP)
+        function acessoDireto() {
             if (!chkAviso.checked) return;
             window.location.href = "http://192.168.4.1/";
         }

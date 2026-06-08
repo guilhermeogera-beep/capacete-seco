@@ -13,8 +13,8 @@ O ESP32 opera em **modo híbrido**:
 
 ### Primeira configuração
 1. Instale o PWA no celular.
-2. Conecte no Wi-Fi `SecadorCapacete` (sem senha de internet).
-3. Abra o app → **Configurar Secador** (ou acesse `http://192.168.4.1/wifi`).
+2. Conecte no Wi-Fi `SecadorCapacete`.
+3. Abra o app → **Conectar ao Secador**. Na tela de controle, toque no botão **Cadastrar Wi-Fi de casa**.
 4. Informe o nome e a senha do seu Wi-Fi de casa e salve. O ESP32 reinicia e conecta na rede.
 
 ### Uso no dia a dia
@@ -22,6 +22,8 @@ O ESP32 opera em **modo híbrido**:
 2. Abra o app → **Conectar ao Secador** (vai para `http://secador.local`).
 3. Selecione o ciclo e inicie. O ESP32 controla ventilador e ozônio pelos relês.
 4. Um contador regressivo mostra o tempo restante; a página recarrega sozinha ao terminar.
+
+> O PWA tem **um único botão** (Conectar ao Secador), que aponta sempre para `secador.local`. Como o mDNS roda também no modo AP, o mesmo endereço funciona na primeira vez. A gestão do Wi-Fi (cadastrar/esquecer) fica dentro da tela de controle, junto com os ciclos. Há um link discreto de "Acesso direto" (`192.168.4.1`) como reserva caso o `.local` não resolva em algum Android antigo.
 
 ---
 
@@ -135,6 +137,9 @@ Página para configurar o Wi-Fi de casa (SSID e senha).
 ### `GET /savewifi`
 Salva as credenciais na EEPROM e reinicia o ESP32. Parâmetros: `s` (SSID), `p` (senha).
 
+### `GET /forgetwifi`
+Apaga a rede salva (limpa flag, SSID e senha da EEPROM) e reinicia em modo AP. Útil antes de enviar o aparelho a outra pessoa ou ao trocar de rede.
+
 ### `GET /set`
 Configura e inicia um ciclo. Parâmetros:
 
@@ -217,5 +222,6 @@ Opções recomendadas:
 
 - A senha do **modo AP de configuração** (`12345678`) é fixa no firmware. Vale apenas durante a configuração inicial; no uso normal o secador fica na rede de casa.
 - A senha do Wi-Fi de casa é guardada na EEPROM em texto puro. Para reconfigurar de uma rede para outra, basta abrir **Configurar Wi-Fi** novamente.
+- **Antes de enviar o aparelho a outra pessoa**, use o botão **Esquecer Wi-Fi salvo** (na página de configuração) para apagar suas credenciais. Assim o aparelho chega zerado e o novo dono configura a rede dele na primeira vez.
 - `millis()` faz rollover após ~49,7 dias, mas a aritmética com `unsigned long` trata isso corretamente.
 - O contador regressivo na interface é calculado no lado do cliente (JavaScript) e pode divergir alguns segundos do ESP32 se a página ficar aberta por muito tempo. Um reload manual sincroniza.
